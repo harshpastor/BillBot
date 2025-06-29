@@ -134,6 +134,8 @@ docker run -v $(pwd)/bills:/app/bills billbot
 ```
 
 ---
+UML Design:
+![image](https://github.com/user-attachments/assets/e480308b-8f49-4264-a580-a964688f17a4)
 
 ## 🧠 Future Enhancements
 
