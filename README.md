@@ -4,7 +4,6 @@ Here's a professional and well-structured **`README.md`** for your project **Bil
 
 ---
 
-```markdown
 # 🤖 BillBot — Your Personal Bill Organizer
 
 **BillBot** is a smart automation platform that extracts PDF bills from your email, identifies the bill type and date using intelligent parsing, and organizes them into structured folders — automatically!
@@ -27,8 +26,7 @@ No more digging through inboxes or scattered downloads — BillBot sorts your li
 
 ## 📦 Folder Structure
 
-```
-
+`
 billbot/
 ├── fetch\_emails.py          # Download PDFs from email
 ├── parse\_pdf.py             # Extract text or OCR
