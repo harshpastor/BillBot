@@ -17,3 +17,4 @@ def save_bill(file_path, category, bill_date, base_dir="bills"):
 
     shutil.move(file_path, dest_path)
     print(f"[✓] Saved bill to: {dest_path}")
+

@@ -1,21 +1,27 @@
+# email_fetcher.py
 import imaplib
 import email
-from email.header import decode_header
 import os
+from provider_help import get_provider_info
 
-def fetch_pdfs(output_dir="downloads"):
-    username = "youremail@gmail.com"
-    password = "yourapppassword"
-    imap_url = "imap.gmail.com"
-
+def fetch_pdfs(username, password, imap_url, output_dir="downloads"):
     os.makedirs(output_dir, exist_ok=True)
+    try:
+        mail = imaplib.IMAP4_SSL(imap_url)
+        mail.login(username, password)
+    except imaplib.IMAP4.error:
+        provider_info = get_provider_info(username)
+        if provider_info:
+            raise Exception(f"Login failed.\n\n{provider_info['instructions']}")
+        else:
+            raise Exception("Login failed. Unknown provider — please check your IMAP settings.")
 
-    mail = imaplib.IMAP4_SSL(imap_url)
-    mail.login(username, password)
     mail.select("inbox")
-
     result, data = mail.search(None, '(UNSEEN SUBJECT "bill" BODY "pdf")')
     mail_ids = data[0].split()
+
+    if not mail_ids:
+        return "No new bill emails found."
 
     for num in mail_ids:
         result, msg_data = mail.fetch(num, '(RFC822)')
@@ -33,4 +39,6 @@ def fetch_pdfs(output_dir="downloads"):
                 with open(filepath, 'wb') as f:
                     f.write(part.get_payload(decode=True))
                 print(f"[+] Saved: {filepath}")
+
     mail.logout()
+    return f"Downloaded {len(mail_ids)} bill(s)."
